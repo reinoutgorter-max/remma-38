@@ -1,0 +1,83 @@
+
+* { box-sizing:border-box; }
+body { margin:0; background:#fff; color:#000; -webkit-font-smoothing:antialiased;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; line-height:1.5; }
+.balk { background:#000; color:#fff; display:flex; justify-content:space-between; align-items:center;
+  padding:10px 12px 10px 20px; min-height:64px; }
+.merk { color:#fff; text-decoration:none; font-size:16px; font-weight:600; letter-spacing:.14em;
+  text-transform:uppercase; }
+.knop, .knopwit { display:inline-block; border:0; border-radius:3px; cursor:pointer; text-decoration:none;
+  font-family:inherit; font-size:13px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; }
+.knopwit { background:#fff; color:#000; padding:14px 20px; }
+.knop { background:#000; color:#fff; padding:19px 30px; }
+.knop.uit { background:#d9d9d9; color:#666; cursor:default; }
+.hero { text-align:center; max-width:980px; margin:0 auto; padding:30px 20px 44px; }
+.label { font-size:17px; font-weight:500; margin:0 0 22px; }
+h1 { font-size:clamp(38px,8.5vw,86px); font-weight:400; letter-spacing:-.045em; line-height:1.04;
+  margin:0 0 32px; }
+.hero.smal h1 { font-size:clamp(34px,6.5vw,60px); }
+.klein { font-size:14px; color:#555; margin:18px 0 0; }
+.tekst { max-width:600px; margin:0 auto; }
+.tekst p { font-size:19px; margin:0 0 18px; }
+.foto { display:block; width:100%; max-width:440px; margin:0 auto 34px; border-radius:6px; }
+.rij { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; max-width:760px; margin:0 auto;
+  padding:0 16px 56px; }
+@media (min-width:700px) { .rij { gap:20px; padding-bottom:72px; } }
+.deur { position:relative; display:block; aspect-ratio:1; overflow:hidden; border-radius:6px;
+  background:#1a1a1a; color:#fff; text-decoration:none; }
+.deur img { width:100%; height:100%; object-fit:cover; display:block; }
+.deur.vaag img { filter:blur(10px); transform:scale(1.2); }
+button.deur { border:0; padding:0; width:100%; font-family:inherit; text-align:left; cursor:pointer; }
+dialog { border:0; border-radius:6px; padding:34px 28px 30px; max-width:440px; width:calc(100% - 32px);
+  text-align:center; }
+dialog::backdrop { background:rgba(0,0,0,.6); }
+.groot { font-size:52px; margin:0 0 10px; line-height:1; }
+.groot .vinger { display:inline-block; transform-origin:50% 95%; animation:zwaai .8s ease-in-out infinite; }
+@keyframes zwaai { 0%,100% { transform:rotate(-20deg); } 50% { transform:rotate(20deg); } }
+@media (prefers-reduced-motion:reduce) { .groot .vinger { animation:none; } }
+dialog h2 { font-size:30px; font-weight:400; letter-spacing:-.04em; line-height:1.1; margin:0 0 14px; }
+dialog p { font-size:17px; margin:0 0 24px; }
+.deur::after { content:""; position:absolute; inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.55),rgba(0,0,0,0) 55%); }
+.deur .info { position:absolute; left:12px; right:8px; bottom:9px; z-index:1; }
+.deur b { display:block; font-size:34px; font-weight:400; letter-spacing:-.04em; line-height:1; }
+.deur span { font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; }
+.deur.nieuw { outline:3px solid #000; outline-offset:3px; }
+form { max-width:420px; margin:26px auto 0; }
+input[type=text] { width:100%; padding:16px; font-size:18px; text-align:center; border:1px solid #000;
+  border-radius:3px; background:#fff; color:#000; font-family:inherit; margin-bottom:14px; }
+form .knop { width:100%; }
+.regel { font-size:14px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; margin:0 0 26px; }
+.fout { color:#b00020; min-height:1.5em; font-size:15px; margin:12px 0 0; }
+.afzender { color:#555; }
+.bon { border:2px solid #000; border-radius:6px; margin:30px 0 34px; text-align:left; overflow:hidden; }
+.bon .bonkop { font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; margin:0; }
+.bon > .bonkop { background:#000; color:#fff; padding:12px 20px; }
+.bon .bontitel { font-size:38px; font-weight:400; letter-spacing:-.04em; line-height:1.05; margin:0;
+  padding:22px 20px 10px; }
+.bon ul { list-style:none; margin:0; padding:6px 20px 18px; }
+.bon li { font-size:18px; padding:9px 0 9px 34px; position:relative; border-bottom:1px solid #e2e2e2; }
+.bon li:last-child { border-bottom:0; }
+.bon li::before { content:"\2713"; position:absolute; left:0; top:7px; width:22px; height:22px; border-radius:50%;
+  background:#000; color:#fff; font-size:13px; line-height:22px; text-align:center; }
+.bon .bonextra { border-top:2px dashed #000; padding:16px 20px 18px; display:flex; flex-direction:column; gap:6px; }
+.bon .extra { font-size:18px; }
+.bon .extra em { font-style:normal; font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  border:1px solid #000; border-radius:3px; padding:3px 7px; margin-left:10px; vertical-align:2px; }
+.bon .bonvoet { background:#f3f3f3; padding:12px 20px; display:flex; flex-wrap:wrap; gap:4px 18px;
+  font-size:13px; color:#555; }
+.rebus { display:flex; flex-wrap:wrap; justify-content:center; gap:18px 44px; margin:34px 0 38px; padding:30px 16px;
+  border-top:1px solid #000; border-bottom:1px solid #000; }
+.rebus .tekening { width:100%; max-width:260px; text-align:center; }
+.rebus .tekening svg { width:100%; height:auto; display:block; }
+.rebus .aantal { display:block; margin-top:10px; font-size:13px; font-weight:600; letter-spacing:.06em;
+  text-transform:uppercase; }
+.rebus .woord { display:flex; align-items:center; gap:12px; }
+.rebus .letters { font-size:40px; font-weight:400; letter-spacing:-.02em; white-space:nowrap; }
+.rebus .plaatje { font-size:74px; line-height:1; display:flex; flex-direction:column; align-items:center; }
+.rebus .plaatje small { font-size:20px; font-weight:600; letter-spacing:.04em; margin-top:10px; }
+.details { display:grid; grid-template-columns:auto 1fr; gap:0; margin:30px 0; text-align:left;
+  border-top:1px solid #000; }
+.details dt, .details dd { margin:0; padding:13px 0; border-bottom:1px solid #000; font-size:16px; }
+.details dt { font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  padding-right:22px; align-self:stretch; display:flex; align-items:center; }

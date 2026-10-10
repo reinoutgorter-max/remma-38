@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Voor Remma</title>
+<link rel="stylesheet" href="stijl.css?v=b48dd418">
+</head>
+<body>
+<header class="balk">
+<a class="merk" href="" data-terug>Remma 38</a>
+
+</header>
+<main>
+<section class="hero">
+<p class="label">Voor Remma, een jaar lang</p>
+<h1>Twaalf vakjes, elke maand een cadeau</h1>
+<span id="heroknop"></span>
+<p class="klein">Elke 21e gaat er één vakje open.</p>
+</section>
+<section class="rij" id="vakjes"></section>
+</main>
+<dialog id="melding">
+<p class="groot"><span>🤨</span><span class="vinger">☝️</span></p>
+<h2>Dat zou je wel willen, hè?</h2>
+<p id="meldingtekst"></p>
+<form method="dialog"><button class="knop">Oké, ik wacht</button></form>
+</dialog>
+<script>
+const deuren = [{"maand": "Oktober", "open": "2026-10-21T07:00:00+02:00", "label": "21 oktober"}, {"maand": "November", "open": "2026-11-21T18:30:00+01:00", "label": "21 november"}, {"maand": "December", "open": "2026-12-21T18:30:00+01:00", "label": "21 december"}, {"maand": "Januari", "open": "2027-01-21T18:30:00+01:00", "label": "21 januari"}, {"maand": "Februari", "open": "2027-02-21T18:30:00+01:00", "label": "21 februari"}, {"maand": "Maart", "open": "2027-03-21T18:30:00+01:00", "label": "21 maart"}, {"maand": "April", "open": "2027-04-21T18:30:00+02:00", "label": "21 april"}, {"maand": "Mei", "open": "2027-05-21T18:30:00+02:00", "label": "21 mei"}, {"maand": "Juni", "open": "2027-06-21T18:30:00+02:00", "label": "21 juni"}, {"maand": "Juli", "open": "2027-07-21T18:30:00+02:00", "label": "21 juli"}, {"maand": "Augustus", "open": "2027-08-21T18:30:00+02:00", "label": "21 augustus"}, {"maand": "September", "open": "2027-09-21T18:30:00+02:00", "label": "21 september"}];
+const params = new URLSearchParams(location.search);
+const zoek = location.search;
+const alles = params.get("sleutel") === "e125af40";
+const nu = Date.now();
+// Wat op dit apparaat al eens geopend is. Met ?wis=1 begin je opnieuw.
+const geopend = deuren.map((d, i) => {
+  try {
+    if (params.has("wis")) localStorage.removeItem("remma38-vakje-" + (i + 1));
+    return JSON.parse(localStorage.getItem("remma38-vakje-" + (i + 1)));
+  } catch (e) { return null; }
+});
+const vrij = deuren.map(d => alles || nu >= Date.parse(d.open));
+const laatste = vrij.lastIndexOf(true);
+const doel = i => geopend[i] ? geopend[i].pad + "/" + zoek : "vakje-" + (i + 1) + "/" + zoek;
+document.getElementById("vakjes").innerHTML = deuren.map((d, i) => {
+  const info = `<div class="info"><b>${i + 1}</b><span>${vrij[i] ? d.maand : "Vanaf " + d.label}</span></div>`;
+  // Scherp wordt de foto pas nadat het vakje voor het eerst geopend is.
+  if (vrij[i] && geopend[i]) return `<a class="deur open" href="${doel(i)}"><img src="f/${geopend[i].foto}.jpg" alt="">${info}</a>`;
+  if (vrij[i]) return `<a class="deur vaag${i === laatste ? " nieuw" : ""}" href="${doel(i)}"><img src="f/vaag-${i + 1}.jpg" alt="">${info}</a>`;
+  return `<button type="button" class="deur vaag dicht" data-nr="${i}"><img src="f/vaag-${i + 1}.jpg" alt="">${info}</button>`;
+}).join("");
+document.getElementById("heroknop").outerHTML = laatste >= 0
+  ? `<a class="knop" href="${doel(laatste)}">Open vakje ${laatste + 1}</a>`
+  : `<span class="knop uit">Eerste vakje op ${deuren[0].label}</span>`;
+document.querySelectorAll("[data-terug]").forEach(a => a.href += zoek);
+const melding = document.getElementById("melding");
+document.querySelectorAll(".deur.dicht").forEach(knop => knop.addEventListener("click", () => {
+  // Telt hele kalenderdagen tot de dag waarop het vakje opengaat.
+  const dag = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
+  const dagen = Math.max(1, Math.round((dag(Date.parse(deuren[knop.dataset.nr].open)) - dag(Date.now())) / 86400000));
+  document.getElementById("meldingtekst").textContent = "Maar zo werkt het niet, stuk ongeduld dat je er bent! Probeer het over "
+    + (dagen === 1 ? "1 dag" : dagen + " dagen") + " weer en je zult versteld staan!";
+  melding.showModal();
+}));
+</script>
+</body>
+</html>

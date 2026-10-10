@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Vakje 2</title>
+<link rel="stylesheet" href="../stijl.css?v=b48dd418">
+</head>
+<body>
+<header class="balk">
+<a class="merk" href="../" data-terug>Remma 38</a>
+<a class="knopwit" href="../" data-terug>Kalender</a>
+</header>
+<main class="hero smal">
+<p class="label">Vakje 2</p>
+<div id="dicht" hidden>
+<p class="groot"><span>🤨</span><span class="vinger">☝️</span></p>
+<h1>Dat zou je wel willen, hè?</h1>
+<p class="klein" id="wacht"></p>
+</div>
+<div id="open" hidden>
+<p class="regel">Spelregel: dit vakje maak je open als Reinout erbij is</p>
+<h1>Ik heb precies één oog en toch zie ik niets. Wat ben ik?</h1>
+<form id="f">
+<input type="text" id="antwoord" autocomplete="off" autocapitalize="off" placeholder="Jouw antwoord" aria-label="Jouw antwoord">
+<button class="knop" type="submit">Open het vakje</button>
+<p class="fout" id="fout"></p>
+</form>
+</div>
+</main>
+<script>
+document.querySelectorAll("[data-terug]").forEach(a => a.href += location.search);
+</script>
+<script>
+const sleutel = new URLSearchParams(location.search).get("sleutel") === "e125af40";
+const magOpen = sleutel || Date.now() >= Date.parse("2026-11-21T18:30:00+01:00");
+let eerder = null;
+try { eerder = JSON.parse(localStorage.getItem("remma38-vakje-2")); } catch (e) {}
+// Het raadsel hoeft maar één keer: is het vakje al eens open geweest, dan ga je direct door.
+if (magOpen && eerder) location.replace("../" + eerder.pad + "/" + location.search);
+document.getElementById(magOpen ? "open" : "dicht").hidden = false;
+const dag = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); return d.getTime(); };
+const dagen = Math.max(1, Math.round((dag(Date.parse("2026-11-21T18:30:00+01:00")) - dag(Date.now())) / 86400000));
+document.getElementById("wacht").textContent = "Maar zo werkt het niet, stuk ongeduld dat je er bent! Probeer het over "
+  + (dagen === 1 ? "1 dag" : dagen + " dagen") + " weer en je zult versteld staan!";
+const schoon = s => s.toLowerCase().normalize("NFD").replace(/[^a-z0-9]/g, "");
+document.getElementById("f").addEventListener("submit", async e => {
+  e.preventDefault();
+  const fout = document.getElementById("fout");
+  const tekst = new TextEncoder().encode("remma38|2|" + schoon(document.getElementById("antwoord").value));
+  const hash = [...new Uint8Array(await crypto.subtle.digest("SHA-256", tekst))]
+    .map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 12);
+  const goed = await fetch("../" + hash + "/", {method: "HEAD"}).then(r => r.ok).catch(() => false);
+  if (goed) location.href = "../" + hash + "/" + location.search;
+  else fout.textContent = "Dat is het nog niet. Probeer het nog eens.";
+});
+</script>
+</body>
+</html>
